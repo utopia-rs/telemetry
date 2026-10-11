@@ -1,0 +1,30 @@
+[package]
+name = "utopia-telemetry"
+description = "Metrics instruments (counters, histograms, gauges, observable gauges) over pluggable backends: none, in memory, and OpenTelemetry (OTLP over HTTP)."
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "BSD-3-Clause"
+
+[features]
+default = ["otlp"]
+# The OpenTelemetry backend: OTLP/protobuf over HTTP(S).
+otlp = ["dep:bytes", "dep:http-body-util", "dep:hyper", "dep:hyper-rustls", "dep:hyper-util", "dep:rustls", "dep:tokio", "dep:tower-service"]
+
+[dependencies]
+bytes = { version = "1", optional = true }
+http-body-util = { version = "0.1", optional = true }
+hyper = { version = "1", optional = true, features = ["server", "http1", "client"] }
+hyper-rustls = { version = "0.27", optional = true, default-features = false, features = ["http1", "ring", "tls12", "webpki-roots"] }
+hyper-util = { version = "0.1", optional = true, features = ["tokio", "client-legacy", "http1"] }
+php-std = { version = "0.1.0", git = "https://github.com/utopia-rs/php-std" }
+rustls = { version = "0.23", optional = true, default-features = false, features = ["ring", "std", "tls12"] }
+thiserror = "2"
+tokio = { version = "1", optional = true, features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt"] }
+tower-service = { version = "0.3", optional = true }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt", "io-util"] }
+
+[package.metadata.utopia]
+php-sync = "da0119eda7c139b8f99b13d814e5a99f9b5ac418"
